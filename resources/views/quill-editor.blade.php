@@ -2,15 +2,6 @@
     :component="$getFieldWrapperView()"
     :field="$field"
 >
-    @push('styles')
-        <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
-        <link href="/dist/quill-editor.css" rel="stylesheet">
-    @endpush
-    @push('scripts')
-        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
-        <script src="/dist/quill-editor.js"></script>
-    @endpush
-
     <div x-data="{ state: $wire.$entangle('{{ $getStatePath() }}') }">
         <x-filament::input.wrapper class="overflow-hidden quill-wrapper">
             <div class="h-full flex flex-col -mx-px" wire:ignore>
