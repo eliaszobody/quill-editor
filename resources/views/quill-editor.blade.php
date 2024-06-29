@@ -58,24 +58,24 @@
     :field="$field"
 >
     <div x-data="{ state: $wire.$entangle('{{ $getStatePath() }}') }">
-        <x-filament::input.wrapper class="overflow-hidden quill-wrapper">
-            <div class="h-full flex flex-col -mx-px" wire:ignore>
-                <div id="quill-toolbar" class="flex justify-between flex-wrap flex-row-reverse">
+        <x-filament::input.wrapper>
+            <div class="ql-wrapper" wire:ignore>
+                <div id="quill-toolbar">
                     @if (!empty($toolbarRight))
                         <div class="ql-toolbar-right">
                             @foreach ($toolbarRight as $group)
                                 <span class="ql-formats">
                                     @foreach ($group as $entry)
                                         @if (array_key_exists($entry, $customDropdowns))
-                                            <span x-data="{ expanded: false }" class="ql-picker {{ $customDropdowns[$entry]['icon'] ? 'ql-icon-picker' : '' }}">
+                                            <span x-data="{ expanded: false }" class="ql-picker {{ $customDropdowns[$entry]['icon'] ? 'ql-icon-picker ql-expanded' : '' }}">
                                                 <span :class="expanded ? 'ql-active' : ''" class="ql-picker-label">{!! $customDropdowns[$entry]['label'] !!}</span>
-                                                <span x-show="expanded" class="ql-picker-options {{ $customDropdowns['entry']['horizontal'] ? 'ql-picker-horizontal' : 'ql-picker-vertical' }}">
+                                                <span x-show="expanded" class="ql-picker-options">
                                                     @foreach ($customDropdowns[$entry]['options'] as $value)
                                                         @if (array_key_exists($value, $customButtons))
                                                             <button class="ql-{{ $value }}">{!! $customButtons[$value]['value'] !!}</button>
                                                         @elseif (array_key_exists($value, $defaultButtons))
                                                             <button class="ql-{{ $defaultButtons[$value][0] }}"
-                                                                value="{{ array_key_exists('value', $defaultButtons[$value]) ? $defaultButtons[$value]['value'] : '' }}"></button>
+                                                                {{ array_key_exists('value', $defaultButtons[$value]) ? 'value='.$defaultButtons[$value]['value'] : '' }}></button>
                                                         @endif
                                                     @endforeach
                                                 </span>
@@ -84,7 +84,7 @@
                                             <button class="ql-{{ $entry }}">{!! $customButtons[$entry]['value'] !!}</button>
                                         @elseif (array_key_exists($entry, $defaultButtons))
                                             <button class="ql-{{ $defaultButtons[$entry][0] }}"
-                                                value="{{ array_key_exists('value', $defaultButtons[$entry]) ? $defaultButtons[$entry]['value'] : '' }}"></button>
+                                                {{ array_key_exists('value', $defaultButtons[$entry]) ? 'value='.$defaultButtons[$entry]['value'] : '' }}></button>
                                         @elseif (array_key_exists($entry, $defaultDropdowns))
                                             <select class="ql-{{ $defaultDropdowns[$entry][0] }}">
                                                 @if (array_key_exists('options', $defaultDropdowns[$entry]))
@@ -107,13 +107,13 @@
                                         @if (array_key_exists($entry, $customDropdowns))
                                             <span x-data="{ expanded: false }" class="ql-picker {{ $customDropdowns[$entry]['icon'] ? 'ql-icon-picker' : '' }}">
                                                 <span :class="expanded ? 'ql-active' : ''" class="ql-picker-label">{!! $customDropdowns[$entry]['label'] !!}</span>
-                                                <span x-show="expanded" class="ql-picker-options {{ $customDropdowns['entry']['horizontal'] ? 'ql-picker-horizontal' : 'ql-picker-vertical' }}">
+                                                <span x-show="expanded" class="ql-picker-options">
                                                     @foreach ($customDropdowns[$entry]['options'] as $value)
                                                         @if (array_key_exists($value, $customButtons))
                                                             <button class="ql-{{ $value }}">{!! $customButtons[$value]['value'] !!}</button>
                                                         @elseif (array_key_exists($value, $defaultButtons))
                                                             <button class="ql-{{ $defaultButtons[$value][0] }}"
-                                                                value="{{ array_key_exists('value', $defaultButtons[$value]) ? $defaultButtons[$value]['value'] : '' }}"></button>
+                                                                {{ array_key_exists('value', $defaultButtons[$value]) ? 'value='.$defaultButtons[$value]['value'] : '' }}></button>
                                                         @endif
                                                     @endforeach
                                                 </span>
@@ -122,7 +122,7 @@
                                             <button class="ql-{{ $entry }}">{!! $customButtons[$entry]['value'] !!}</button>
                                         @elseif (array_key_exists($entry, $defaultButtons))
                                             <button class="ql-{{ $defaultButtons[$entry][0] }}"
-                                                value="{{ array_key_exists('value', $defaultButtons[$entry]) ? $defaultButtons[$entry]['value'] : '' }}"></button>
+                                                {{ array_key_exists('value', $defaultButtons[$entry]) ? 'value='.$defaultButtons[$entry]['value'] : '' }}></button>
                                         @elseif (array_key_exists($entry, $defaultDropdowns))
                                             <select class="ql-{{ $defaultDropdowns[$entry][0] }}">
                                                 @if (array_key_exists('options', $defaultDropdowns[$entry]))
@@ -138,7 +138,7 @@
                         </div>
                     @endif
                 </div>
-                <div id="quill-editor" class="min-h-[240px] max-h-[440px] max-w-full" style="width: 640px"
+                <div id="quill-editor" class="min-h-[240px] max-h-[440px]" style="width: 640px"
                     x-data
                     x-init="
                         quill.root.innerHTML = state;

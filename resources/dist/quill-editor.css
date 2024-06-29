@@ -1,23 +1,35 @@
+.ql-wrapper {
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    margin-left: -1px !important;
+    margin-right: -1px !important;
+}
+
 .ql-container {
     border: none !important;
     border-left: 1px solid rgba(128, 128, 128, 0.3) !important;
     border-right: 1px solid rgba(128, 128, 128, 0.3) !important;
     margin: 0 auto !important;
     height: 100% !important;
+    max-width: 100% !important;
 }
 
 .ql-toolbar {
     border: none !important;
     padding: 0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    flex-direction: row-reverse !important;
 }
 
 .ql-toolbar-right, .ql-toolbar-left {
     border-bottom: 1px solid rgba(128, 128, 128, 0.3) !important;
     display: flex !important;
     flex-grow: 1 !important;
-    padding: 2px !important;
+    padding: 8px !important;
     flex-wrap: nowrap !important;
-    overflow-x: auto;
 }
 
 .ql-toolbar-right {
@@ -28,7 +40,7 @@
     justify-content: start !important;
 }
 
-.ql-toolbar-right:last-child .ql-toolbar-left:last-child {
+.ql-formats:last-child {
     margin-right: 0 !important;
 }
 
@@ -65,7 +77,7 @@
     color: rgb(var(--primary-600)) !important;
 }
 
-.ql-formats button:hover, .ql-picker-label:hover {
+.ql-formats button:hover, .ql-picker-label:hover, .ql-picker-item:hover {
     border-radius: 4px !important;
     background-color: rgba(128, 128, 128, 0.2) !important;
 }
@@ -77,5 +89,24 @@
 .ql-picker-options {
     border: 1px solid rgba(128, 128, 128, 0.3) !important;
     margin-top: 4px !important;
-    border-radius: 4px !important;
+    border-radius: 6px !important;
+    padding: 4px !important;
+    background-color: rgba(256, 256, 256, var(--tw-bg-opacity)) !important;
+}
+
+.ql-icon-picker.ql-expanded .ql-picker-options {
+    display: flex !important;
+}
+
+html.dark .ql-picker-options {
+    background-color: rgba(var(--gray-900), var(--tw-bg-opacity)) !important;
+}
+
+.ql-picker-item {
+    padding: 2px 4px !important;
+}
+
+.ql-icon-picker .ql-picker-item {
+    width: 28px !important;
+    height: 24px !important;
 }

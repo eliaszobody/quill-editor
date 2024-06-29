@@ -10,11 +10,11 @@ class QuillEditor extends Field
 {
     protected string $view = 'quill-editor::quill-editor';
 
-    protected array $toolbarLeft;
-    protected array $toolbarRight;
+    protected $toolbarLeft = [];
+    protected $toolbarRight = [];
 
-    protected array $customButtons = [];
-    protected array $customDropdowns = [];
+    protected $customButtons = [];
+    protected $customDropdowns = [];
 
     public function toolbar(array | Closure $left = [], array | Closure $right = []): static
     {
@@ -34,13 +34,12 @@ class QuillEditor extends Field
         return $this;
     }
 
-    public function customDropdown(string $name, array $options, bool $icon = false, ?string $label = null, bool $horizontal = false): static
+    public function customDropdown(string $name, array $options, bool $icon = false, ?string $label = null): static
     {
         $this->customDropdowns[$name] = [
             'icon' => $icon,
             'label' => $label,
             'options' => $options,
-            'horizontal' => $horizontal,
         ];
 
         return $this;
