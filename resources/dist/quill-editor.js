@@ -26,5 +26,3 @@ const quill = new Quill('#quill-editor', {
         },
     }
 });
-
-document.getElementById('display-label').innerHTML = Icons['display'][''];

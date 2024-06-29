@@ -48,9 +48,9 @@ class QuillEditorServiceProvider extends PackageServiceProvider
     {
         return [
             Css::make('quill', 'https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css'),
-            Css::make('custom', __DIR__ . '/../resources/dist/quill-editor.css'),
+            Css::make('styles', __DIR__ . '/../resources/dist/quill-editor.css'),
             Js::make('quill', 'https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js'),
-            Js::make('custom', __DIR__ . '/../resources/dist/quill-editor.js'),
+            Js::make('scripts', __DIR__ . '/../resources/dist/quill-editor.js'),
         ];
     }
 }

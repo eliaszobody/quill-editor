@@ -11,8 +11,25 @@
     padding: 0 !important;
 }
 
-.ql-toolbar > div {
+.ql-toolbar-right, .ql-toolbar-left {
     border-bottom: 1px solid rgba(128, 128, 128, 0.3) !important;
+    display: flex !important;
+    flex-grow: 1 !important;
+    padding: 2px !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+}
+
+.ql-toolbar-right {
+    justify-content: end !important;
+}
+
+.ql-toolbar-left {
+    justify-content: start !important;
+}
+
+.ql-toolbar-right:last-child .ql-toolbar-left:last-child {
+    margin-right: 0 !important;
 }
 
 .ql-toolbar::after {
