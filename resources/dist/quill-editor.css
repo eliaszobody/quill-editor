@@ -98,6 +98,10 @@
     display: flex !important;
 }
 
+.ql-toolbar-right .ql-picker-options {
+    right: 0;
+}
+
 html.dark .ql-picker-options {
     background-color: rgba(var(--gray-900), var(--tw-bg-opacity)) !important;
 }
