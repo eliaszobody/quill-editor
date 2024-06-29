@@ -36,7 +36,7 @@
     },
     "autoload": {
         "psr-4": {
-            "QuillEditor\\": "src/"
+            "Eliaszobody\\QuillEditor\\": "src/"
         }
     },
     "scripts": {
@@ -52,7 +52,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "QuillEditor\\QuillEditorServiceProvider"
+                "Eliaszobody\\QuillEditor\\QuillEditorServiceProvider"
             ]
         }
     },
