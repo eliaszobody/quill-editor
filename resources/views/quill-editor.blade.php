@@ -60,21 +60,6 @@
     ];
 ?>
 
-@push('scripts')
-    <script>
-        const quill = new Quill('#quill-editor-{{ $statePath }}', {
-            theme: theme,
-            modules: {
-                toolbar: {
-                    container: "#quill-toolbar-{{ $statePath }}",
-                    handlers: handlers.concat(@json($customActions))
-                },
-                history: history,
-            }
-        });
-    </script>
-@endpush
-
 <x-dynamic-component
     :component="$getFieldWrapperView()"
     :field="$field"
@@ -82,7 +67,7 @@
     <div x-data="{ state: $wire.$entangle('{{ $statePath }}') }">
         <x-filament::input.wrapper>
             <div class="ql-wrapper" wire:ignore>
-                <div id="quill-toolbar-{{ $statePath }}">
+                <div x-ref="quill-toolbar-{{ $statePath }}">
                     @if (!empty($toolbarRight))
                         <div class="ql-toolbar-right">
                             @foreach ($toolbarRight as $group)
@@ -160,9 +145,20 @@
                         </div>
                     @endif
                 </div>
-                <div id="quill-editor-{{ $statePath }}" class="min-h-[240px] max-h-[440px]" style="width: 640px"
+                <div class="min-h-[240px] max-h-[440px]" style="width: 640px"
+                    x-ref="quill-editor-{{ $statePath }}"
                     x-data
                     x-init="
+                        const quill = new Quill($refs(quill-toolbar-{{ $statePath }}), {
+                            theme: theme,
+                            modules: {
+                                toolbar: {
+                                    container: $refs(quill-editor-{{ $statePath }}),
+                                    handlers: handlers.concat(@json($customActions))
+                                },
+                                history: history,
+                            }
+                        });
                         quill.root.innerHTML = state;
                         quill.on('text-change', function () {
                             $dispatch('quill-change', quill.root.innerHTML);
