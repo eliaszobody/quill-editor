@@ -5,7 +5,7 @@
     $customDropdowns = $getCustomDropdowns();
     $defaultButtons = [
         'undo' => ['undo'],
-        'redo' => ['redo']
+        'redo' => ['redo'],
         'bold' => ['bold'],
         'link' => ['link'],
         'code' => ['code'],
