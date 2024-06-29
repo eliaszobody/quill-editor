@@ -62,11 +62,11 @@
 
 @push('scripts')
     <script>
-        const quill = new Quill('#quill-editor', {
+        const quill = new Quill('#quill-editor-{{ $statePath }}', {
             theme: theme,
             modules: {
                 toolbar: {
-                    container: "#{{ $statePath }}",
+                    container: "#quill-toolbar-{{ $statePath }}",
                     handlers: handlers.concat(@json($customActions))
                 },
                 history: history,
@@ -82,7 +82,7 @@
     <div x-data="{ state: $wire.$entangle('{{ $statePath }}') }">
         <x-filament::input.wrapper>
             <div class="ql-wrapper" wire:ignore>
-                <div id="quill-toolbar">
+                <div id="quill-toolbar-{{ $statePath }}">
                     @if (!empty($toolbarRight))
                         <div class="ql-toolbar-right">
                             @foreach ($toolbarRight as $group)
@@ -160,7 +160,7 @@
                         </div>
                     @endif
                 </div>
-                <div id="{{ $statePath }}" class="min-h-[240px] max-h-[440px]" style="width: 640px"
+                <div id="quill-editor-{{ $statePath }}" class="min-h-[240px] max-h-[440px]" style="width: 640px"
                     x-data
                     x-init="
                         quill.root.innerHTML = state;
