@@ -1,6 +1,8 @@
 <?php
+    $statePath = $getStatePath();
     $toolbarLeft = $getToolbarLeft();
     $toolbarRight = $getToolbarRight();
+    $customActions = $getCustomActions();
     $customButtons = $getCustomButtons();
     $customDropdowns = $getCustomDropdowns();
     $defaultButtons = [
@@ -28,14 +30,15 @@
         'bulletlist' => ['list', 'value' => 'bullet'],
         'orderedlist' => ['list', 'value' => 'ordered'],
         'checklist' => ['list', 'value' => 'check'],
-        'rtl' => ['direction', 'value' => 'rtl'],
-        'ltr' => ['direction', 'value' => 'ltr'],
+        'righttoleft' => ['direction', 'value' => 'rtl'],
     ];
     $defaultDropdowns = [
         'bg-color' => ['background'],
         'text-color' => ['color'],
         'font-family' => ['font', 'options' => ['','serif','monospace']],
-        'text-size' => ['size', 'options' => ['small','','large','huge']],
+        'text-snlh' => ['size', 'options' => ['small','','large','huge']],
+        'text-snl' => ['size', 'options' => ['small','','large']],
+        'text-nlh' => ['size', 'options' => ['small','','large']],
         'align-lcrj' => ['align', 'options' => ['','center','right','justify']],
         'align-lcr' => ['align', 'options' => ['','center','right']],
         'align-lrj' => ['align', 'options' => ['','right','justify']],
@@ -57,11 +60,26 @@
     ];
 ?>
 
+@push('scripts')
+    <script>
+        const quill = new Quill('#quill-editor', {
+            theme: theme,
+            modules: {
+                toolbar: {
+                    container: "#{{ $statePath }}",
+                    handlers: handlers.concat(@json($customActions))
+                },
+                history: history,
+            }
+        });
+    </script>
+@endpush
+
 <x-dynamic-component
     :component="$getFieldWrapperView()"
     :field="$field"
 >
-    <div x-data="{ state: $wire.$entangle('{{ $getStatePath() }}') }">
+    <div x-data="{ state: $wire.$entangle('{{ $statePath }}') }">
         <x-filament::input.wrapper>
             <div class="ql-wrapper" wire:ignore>
                 <div id="quill-toolbar">
@@ -76,7 +94,7 @@
                                                 <span x-show="expanded" class="ql-picker-options">
                                                     @foreach ($customDropdowns[$entry]['options'] as $value)
                                                         @if (array_key_exists($value, $customButtons))
-                                                            <button class="ql-{{ $value }}">{!! $customButtons[$value]['value'] !!}</button>
+                                                            <button class="ql-{{ $value }}">{!! $customButtons[$value] !!}</button>
                                                         @elseif (array_key_exists($value, $defaultButtons))
                                                             <button class="ql-{{ $defaultButtons[$value][0] }}"
                                                                 {{ array_key_exists('value', $defaultButtons[$value]) ? 'value='.$defaultButtons[$value]['value'] : '' }}></button>
@@ -85,7 +103,7 @@
                                                 </span>
                                             </span>
                                         @elseif (array_key_exists($entry, $customButtons))
-                                            <button class="ql-{{ $entry }}">{!! $customButtons[$entry]['value'] !!}</button>
+                                            <button class="ql-{{ $entry }}">{!! $customButtons[$entry] !!}</button>
                                         @elseif (array_key_exists($entry, $defaultButtons))
                                             <button class="ql-{{ $defaultButtons[$entry][0] }}"
                                                 {{ array_key_exists('value', $defaultButtons[$entry]) ? 'value='.$defaultButtons[$entry]['value'] : '' }}></button>
@@ -114,7 +132,7 @@
                                                 <span x-show="expanded" class="ql-picker-options">
                                                     @foreach ($customDropdowns[$entry]['options'] as $value)
                                                         @if (array_key_exists($value, $customButtons))
-                                                            <button class="ql-{{ $value }}">{!! $customButtons[$value]['value'] !!}</button>
+                                                            <button class="ql-{{ $value }}">{!! $customButtons[$value] !!}</button>
                                                         @elseif (array_key_exists($value, $defaultButtons))
                                                             <button class="ql-{{ $defaultButtons[$value][0] }}"
                                                                 {{ array_key_exists('value', $defaultButtons[$value]) ? 'value='.$defaultButtons[$value]['value'] : '' }}></button>
@@ -123,7 +141,7 @@
                                                 </span>
                                             </span>
                                         @elseif (array_key_exists($entry, $customButtons))
-                                            <button class="ql-{{ $entry }}">{!! $customButtons[$entry]['value'] !!}</button>
+                                            <button class="ql-{{ $entry }}">{!! $customButtons[$entry] !!}</button>
                                         @elseif (array_key_exists($entry, $defaultButtons))
                                             <button class="ql-{{ $defaultButtons[$entry][0] }}"
                                                 {{ array_key_exists('value', $defaultButtons[$entry]) ? 'value='.$defaultButtons[$entry]['value'] : '' }}></button>
@@ -142,7 +160,7 @@
                         </div>
                     @endif
                 </div>
-                <div id="quill-editor" class="min-h-[240px] max-h-[440px]" style="width: 640px"
+                <div id="{{ $statePath }}" class="min-h-[240px] max-h-[440px]" style="width: 640px"
                     x-data
                     x-init="
                         quill.root.innerHTML = state;

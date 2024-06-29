@@ -77,7 +77,7 @@
     color: rgb(var(--primary-600)) !important;
 }
 
-.ql-formats button:hover, .ql-picker-label:hover, .ql-picker-item:hover {
+.ql-formats button:hover, .ql-picker-label:hover, .ql-picker:not(.ql-color-picker) .ql-picker-item:hover {
     border-radius: 4px !important;
     background-color: rgba(128, 128, 128, 0.2) !important;
 }

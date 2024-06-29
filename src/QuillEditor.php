@@ -13,6 +13,7 @@ class QuillEditor extends Field
     protected $toolbarLeft = [];
     protected $toolbarRight = [];
 
+    protected $customActions = [];
     protected $customButtons = [];
     protected $customDropdowns = [];
 
@@ -26,10 +27,9 @@ class QuillEditor extends Field
 
     public function customButton(string $name, string $display, Js $action): static
     {
-        $this->customButtons[$name] = [
-            'value' => $display,
-            'action' => $action,
-        ];
+        $this->customActions[$name] = $action;
+
+        $this->customButtons[$name] = $display;
 
         return $this;
     }
@@ -53,6 +53,11 @@ class QuillEditor extends Field
     public function getToolbarRight(): array
     {
         return $this->toolbarRight;
+    }
+
+    public function getCustomActions(): array
+    {
+        return $this->customActions;
     }
 
     public function getCustomButtons(): array
