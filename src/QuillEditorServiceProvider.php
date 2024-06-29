@@ -47,9 +47,10 @@ class QuillEditorServiceProvider extends PackageServiceProvider
     protected function getAssets(): array
     {
         return [
-            // AlpineComponent::make('quill-editor', __DIR__ . '/../resources/dist/components/quill-editor.js'),
-            Css::make('quill-editor-styles', __DIR__ . '/../resources/dist/quill-editor.css'),
-            Js::make('quill-editor-scripts', __DIR__ . '/../resources/dist/quill-editor.js'),
+            Css::make('quill', 'https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css'),
+            Css::make('custom', __DIR__ . '/../resources/dist/quill-editor.css'),
+            Js::make('quill', 'https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js'),
+            Js::make('custom', __DIR__ . '/../resources/dist/quill-editor.js'),
         ];
     }
 }
