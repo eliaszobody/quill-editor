@@ -16,6 +16,7 @@
         'image' => ['image'],
         'video' => ['video'],
         'italic' => ['italic'],
+        'unstyle' => ['clean'],
         'formula' => ['formula'],
         'underline' => ['underline'],
         'strikethrough' => ['strike'],
