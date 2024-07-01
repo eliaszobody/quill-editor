@@ -11,6 +11,8 @@ class QuillEditor extends Field
 {
     protected string $view = 'quill-editor::quill-editor';
 
+    protected $resizable = false;
+
     protected $toolbarLeft = [];
     protected $toolbarRight = [];
 
@@ -26,6 +28,18 @@ class QuillEditor extends Field
         $this->toolbarRight = $right;
 
         return $this;
+    }
+
+    public function resizable(bool $resizable = true): static
+    {
+        $this->resizable = $resizable;
+
+        return $this;
+    }
+
+    public function isResizable(): bool
+    {
+        return $this->resizable;
     }
 
     public function customButton(Closure | string $name, Closure | string | Htmlable $display, Closure | string $action, bool $icon = false): static

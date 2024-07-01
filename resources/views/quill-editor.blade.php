@@ -69,6 +69,21 @@
     ];
 ?>
 
+@if ($isResizable())
+    @push('styles')
+    <style>
+        #quill-editor-{{ $quillId }} .ql-editor {
+            max-width: 100%;
+            min-width: 320px;
+            resize: horizontal;
+            border-left: 1px solid rgba(128, 128, 128, 0.3);
+            border-right: 1px solid rgba(128, 128, 128, 0.3);
+            margin: 0 auto;
+        }
+    </style>
+    @endpush
+@endif
+
 <x-dynamic-component
     :component="$getFieldWrapperView()"
     :field="$field"
@@ -202,7 +217,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="min-h-[240px] max-h-[440px]" style="width: 640px" id="quill-editor-{{ $quillId }}"
+                <div class="min-h-[240px] max-h-[440px]" id="quill-editor-{{ $quillId }}"
                     x-data="{ quill: null }"
                     x-init="
                         quill = new Quill('#quill-editor-{{ $quillId }}', {

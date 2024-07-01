@@ -8,11 +8,8 @@
 
 .ql-container {
     border: none !important;
-    border-left: 1px solid rgba(128, 128, 128, 0.3) !important;
-    border-right: 1px solid rgba(128, 128, 128, 0.3) !important;
-    margin: 0 auto !important;
     height: 100% !important;
-    max-width: 100% !important;
+    width: 100% !important;
 }
 
 .ql-toolbar {
