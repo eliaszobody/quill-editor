@@ -1,10 +1,12 @@
 <?php
-    $statePath = $getStatePath();
+    $quillId = Str::random(12);
     $toolbarLeft = $getToolbarLeft();
     $toolbarRight = $getToolbarRight();
     $customActions = $getCustomActions();
-    $customButtons = $getCustomButtons();
-    $customDropdowns = $getCustomDropdowns();
+    $customIconButtons = $getCustomIconButtons();
+    $customIconDropdowns = $getCustomIconDropdowns();
+    $customTextButtons = $getCustomTextButtons();
+    $customTextDropdowns = $getCustomTextDropdowns();
     $defaultButtons = [
         'undo' => ['undo'],
         'redo' => ['redo'],
@@ -20,6 +22,12 @@
         'codeblock' => ['code-block'],
         'blockquote' => ['blockquote'],
         'leftalign' => ['align'],
+        'header1' => ['header', 'value' => 1],
+        'header2' => ['header', 'value' => 2],
+        'header3' => ['header', 'value' => 3],
+        'header4' => ['header', 'value' => 4],
+        'header5' => ['header', 'value' => 5],
+        'header6' => ['header', 'value' => 6],
         'centeralign' => ['align', 'value' => 'center'],
         'rightalign' => ['align', 'value' => 'right'],
         'justifyalign' => ['align', 'value' => 'justify'],
@@ -35,7 +43,7 @@
     $defaultDropdowns = [
         'bg-color' => ['background'],
         'text-color' => ['color'],
-        'font-family' => ['font', 'options' => ['','serif','monospace']],
+        'font-family' => ['font'],
         'text-snlh' => ['size', 'options' => ['small','','large','huge']],
         'text-snl' => ['size', 'options' => ['small','','large']],
         'text-nlh' => ['size', 'options' => ['small','','large']],
@@ -64,31 +72,55 @@
     :component="$getFieldWrapperView()"
     :field="$field"
 >
-    <div x-data="{ state: $wire.$entangle('{{ $statePath }}') }">
+    <div x-data="{ state: $wire.$entangle('{{ $getStatePath() }}') }">
         <x-filament::input.wrapper>
-            <div class="ql-wrapper" wire:ignore>
-                <div x-ref="quill-toolbar-{{ $statePath }}">
+            <div class="ql-wrapper" wire:ignore x-cloak>
+                <div id="quill-toolbar-{{ $quillId }}">
                     @if (!empty($toolbarRight))
                         <div class="ql-toolbar-right">
                             @foreach ($toolbarRight as $group)
                                 <span class="ql-formats">
                                     @foreach ($group as $entry)
-                                        @if (array_key_exists($entry, $customDropdowns))
-                                            <span x-data="{ expanded: false }" class="ql-picker {{ $customDropdowns[$entry]['icon'] ? 'ql-icon-picker ql-expanded' : '' }}">
-                                                <span :class="expanded ? 'ql-active' : ''" class="ql-picker-label">{!! $customDropdowns[$entry]['label'] !!}</span>
-                                                <span x-show="expanded" class="ql-picker-options">
-                                                    @foreach ($customDropdowns[$entry]['options'] as $value)
-                                                        @if (array_key_exists($value, $customButtons))
-                                                            <button class="ql-{{ $value }}">{!! $customButtons[$value] !!}</button>
+                                        @if (array_key_exists($entry, $customIconDropdowns))
+                                            <span x-data="{ expanded: false }" class="ql-picker ql-icon-picker ql-picker-custom" :class="expanded ? 'ql-expanded' : ''">
+                                                @if (array_key_exists($customIconDropdowns[$entry]['label'], $customIconButtons))
+                                                    <button class="ql-{{ $customIconDropdowns[$entry]['label'] }} ql-picker-label"
+                                                        x-on:click="expanded=!expanded" x-on:click.outside="expanded=false">
+                                                        {{ $customIconButtons[$customIconDropdowns[$entry]['label']] }}</button>
+                                                @elseif (array_key_exists($customIconDropdowns[$entry]['label'], $defaultButtons))
+                                                    <button class="ql-{{ $defaultButtons[$customIconDropdowns[$entry]['label']][0] }} ql-picker-label"
+                                                        x-on:click="expanded=!expanded" x-on:click.outside="expanded=false"
+                                                        {{ array_key_exists('value', $defaultButtons[$customIconDropdowns[$entry]['label']]) ? 'value='.$defaultButtons[$customIconDropdowns[$entry]['label']]['value'] : '' }}></button>
+                                                @endif
+                                                <span class="ql-picker-options">
+                                                    @foreach ($customIconDropdowns[$entry]['options'] as $value)
+                                                        @if (array_key_exists($value, $customIconButtons))
+                                                            <button class="ql-{{ $value }} ql-picker-item">{!! $customIconButtons[$value] !!}</button>
                                                         @elseif (array_key_exists($value, $defaultButtons))
-                                                            <button class="ql-{{ $defaultButtons[$value][0] }}"
+                                                            <button class="ql-{{ $defaultButtons[$value][0] }} ql-picker-item"
                                                                 {{ array_key_exists('value', $defaultButtons[$value]) ? 'value='.$defaultButtons[$value]['value'] : '' }}></button>
                                                         @endif
                                                     @endforeach
                                                 </span>
                                             </span>
-                                        @elseif (array_key_exists($entry, $customButtons))
-                                            <button class="ql-{{ $entry }}">{!! $customButtons[$entry] !!}</button>
+                                        @elseif (array_key_exists($entry, $customTextDropdowns))
+                                            <span x-data="{ expanded: false }" class="ql-picker ql-picker-custom" :class="expanded ? 'ql-expanded' : ''">
+                                                <span class="ql-picker-label ql-non-selectable" x-on:click="expanded=!expanded" x-on:click.outside="expanded=false" tabindex="0">
+                                                    {{ $customTextDropdowns[$entry]['label'] }}
+                                                    <svg viewBox="0 0 18 18"><polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon><polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon></svg>
+                                                </span>
+                                                <span class="ql-picker-options">
+                                                    @foreach ($customTextDropdowns[$entry]['options'] as $value)
+                                                        @if (array_key_exists($value, $customTextButtons))
+                                                            <button class="ql-{{ $value }} ql-text-button ql-picker-item">{{ $customTextButtons[$value] }}</button>
+                                                        @endif
+                                                    @endforeach
+                                                </span>
+                                            </span>
+                                        @elseif (array_key_exists($entry, $customIconButtons))
+                                            <button class="ql-{{ $entry }}">{!! $customIconButtons[$entry] !!}</button>
+                                        @elseif (array_key_exists($entry, $customTextButtons))
+                                            <button class="ql-{{ $entry }} ql-text-button">{{ $customTextButtons[$entry] }}</button>
                                         @elseif (array_key_exists($entry, $defaultButtons))
                                             <button class="ql-{{ $defaultButtons[$entry][0] }}"
                                                 {{ array_key_exists('value', $defaultButtons[$entry]) ? 'value='.$defaultButtons[$entry]['value'] : '' }}></button>
@@ -111,22 +143,46 @@
                             @foreach ($toolbarLeft as $group)
                                 <span class="ql-formats">
                                     @foreach ($group as $entry)
-                                        @if (array_key_exists($entry, $customDropdowns))
-                                            <span x-data="{ expanded: false }" class="ql-picker {{ $customDropdowns[$entry]['icon'] ? 'ql-icon-picker' : '' }}">
-                                                <span :class="expanded ? 'ql-active' : ''" class="ql-picker-label">{!! $customDropdowns[$entry]['label'] !!}</span>
-                                                <span x-show="expanded" class="ql-picker-options">
-                                                    @foreach ($customDropdowns[$entry]['options'] as $value)
-                                                        @if (array_key_exists($value, $customButtons))
-                                                            <button class="ql-{{ $value }}">{!! $customButtons[$value] !!}</button>
+                                        @if (array_key_exists($entry, $customIconDropdowns))
+                                            <span x-data="{ expanded: false }" class="ql-picker ql-icon-picker ql-picker-custom" :class="expanded ? 'ql-expanded' : ''">
+                                                @if (array_key_exists($customIconDropdowns[$entry]['label'], $customIconButtons))
+                                                    <button class="ql-{{ $customIconDropdowns[$entry]['label'] }} ql-picker-label"
+                                                        x-on:click="expanded=!expanded" x-on:click.outside="expanded=false">
+                                                        {{ $customIconButtons[$customIconDropdowns[$entry]['label']] }}</button>
+                                                @elseif (array_key_exists($customIconDropdowns[$entry]['label'], $defaultButtons))
+                                                    <button class="ql-{{ $defaultButtons[$customIconDropdowns[$entry]['label']][0] }} ql-picker-label"
+                                                        x-on:click="expanded=!expanded" x-on:click.outside="expanded=false"
+                                                        {{ array_key_exists('value', $defaultButtons[$customIconDropdowns[$entry]['label']]) ? 'value='.$defaultButtons[$customIconDropdowns[$entry]['label']]['value'] : '' }}></button>
+                                                @endif
+                                                <span class="ql-picker-options">
+                                                    @foreach ($customIconDropdowns[$entry]['options'] as $value)
+                                                        @if (array_key_exists($value, $customIconButtons))
+                                                            <button class="ql-{{ $value }} ql-picker-item">{!! $customIconButtons[$value] !!}</button>
                                                         @elseif (array_key_exists($value, $defaultButtons))
-                                                            <button class="ql-{{ $defaultButtons[$value][0] }}"
+                                                            <button class="ql-{{ $defaultButtons[$value][0] }} ql-picker-item"
                                                                 {{ array_key_exists('value', $defaultButtons[$value]) ? 'value='.$defaultButtons[$value]['value'] : '' }}></button>
                                                         @endif
                                                     @endforeach
                                                 </span>
                                             </span>
-                                        @elseif (array_key_exists($entry, $customButtons))
-                                            <button class="ql-{{ $entry }}">{!! $customButtons[$entry] !!}</button>
+                                        @elseif (array_key_exists($entry, $customTextDropdowns))
+                                            <span x-data="{ expanded: false }" class="ql-picker ql-picker-custom" :class="expanded ? 'ql-expanded' : ''">
+                                                <span class="ql-picker-label ql-non-selectable" x-on:click="expanded=!expanded" x-on:click.outside="expanded=false" tabindex="0">
+                                                    {{ $customTextDropdowns[$entry]['label'] }}
+                                                    <svg viewBox="0 0 18 18"><polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon><polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon></svg>
+                                                </span>
+                                                <span class="ql-picker-options">
+                                                    @foreach ($customTextDropdowns[$entry]['options'] as $value)
+                                                        @if (array_key_exists($value, $customTextButtons))
+                                                            <button class="ql-{{ $value }} ql-text-button ql-picker-item">{{ $customTextButtons[$value] }}</button>
+                                                        @endif
+                                                    @endforeach
+                                                </span>
+                                            </span>
+                                        @elseif (array_key_exists($entry, $customIconButtons))
+                                            <button class="ql-{{ $entry }}">{!! $customIconButtons[$entry] !!}</button>
+                                        @elseif (array_key_exists($entry, $customTextButtons))
+                                            <button class="ql-{{ $entry }} ql-text-button">{{ $customTextButtons[$entry] }}</button>
                                         @elseif (array_key_exists($entry, $defaultButtons))
                                             <button class="ql-{{ $defaultButtons[$entry][0] }}"
                                                 {{ array_key_exists('value', $defaultButtons[$entry]) ? 'value='.$defaultButtons[$entry]['value'] : '' }}></button>
@@ -145,18 +201,31 @@
                         </div>
                     @endif
                 </div>
-                <div class="min-h-[240px] max-h-[440px]" style="width: 640px"
-                    x-ref="quill-editor-{{ $statePath }}"
-                    x-data
+                <div class="min-h-[240px] max-h-[440px]" style="width: 640px" id="quill-editor-{{ $quillId }}"
+                    x-data="{ quill: null }"
                     x-init="
-                        const quill = new Quill($refs(quill-toolbar-{{ $statePath }}), {
-                            theme: theme,
+                        quill = new Quill('#quill-editor-{{ $quillId }}', {
+                            theme: 'snow',
                             modules: {
                                 toolbar: {
-                                    container: $refs(quill-editor-{{ $statePath }}),
-                                    handlers: handlers.concat(@json($customActions))
+                                    container: '#quill-toolbar-{{ $quillId }}',
+                                    handlers: {
+                                        @foreach ($customActions as $name => $action)
+                                            '{{ $name }}': {{ $action ? $action : 'function () {}' }},
+                                        @endforeach
+                                        undo: function () {
+                                            this.quill.history.undo();
+                                        },
+                                        redo: function () {
+                                            this.quill.history.redo();
+                                        }
+                                    }
                                 },
-                                history: history,
+                                history: {
+                                    delay: 1000,
+                                    maxStack: 100,
+                                    userOnly: true
+                                },
                             }
                         });
                         quill.root.innerHTML = state;

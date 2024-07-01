@@ -4,6 +4,7 @@ namespace Eliaszobody\QuillEditor;
 
 use Closure;
 use Filament\Forms\Components\Field;
+use Illuminate\Contracts\Support\Htmlable;
 use Livewire\Attributes\Js;
 
 class QuillEditor extends Field
@@ -14,10 +15,12 @@ class QuillEditor extends Field
     protected $toolbarRight = [];
 
     protected $customActions = [];
-    protected $customButtons = [];
-    protected $customDropdowns = [];
+    protected $customIconButtons = [];
+    protected $customTextButtons = [];
+    protected $customIconDropdowns = [];
+    protected $customTextDropdowns = [];
 
-    public function toolbar(array | Closure $left = [], array | Closure $right = []): static
+    public function toolbar(Closure | array $left = [], Closure | array $right = []): static
     {
         $this->toolbarLeft = $left;
         $this->toolbarRight = $right;
@@ -25,22 +28,32 @@ class QuillEditor extends Field
         return $this;
     }
 
-    public function customButton(string $name, string $display, Js $action): static
+    public function customButton(Closure | string $name, Closure | string | Htmlable $display, Closure | string $action, bool $icon = false): static
     {
         $this->customActions[$name] = $action;
 
-        $this->customButtons[$name] = $display;
+        if ($icon) {
+            $this->customIconButtons[$name] = $display;
+        } else {
+            $this->customTextButtons[$name] = $display;
+        }
 
         return $this;
     }
 
-    public function customDropdown(string $name, array $options, bool $icon = false, ?string $label = null): static
+    public function customDropdown(Closure | string $name, Closure | array $options, Closure | bool $icon = false, Closure | string | Htmlable | null $label = null): static
     {
-        $this->customDropdowns[$name] = [
-            'icon' => $icon,
-            'label' => $label,
-            'options' => $options,
-        ];
+        if ($icon) {
+            $this->customIconDropdowns[$name] = [
+                'label' => $label,
+                'options' => $options,
+            ];
+        } else {
+            $this->customTextDropdowns[$name] = [
+                'label' => $label,
+                'options' => $options,
+            ];
+        }
 
         return $this;
     }
@@ -60,14 +73,24 @@ class QuillEditor extends Field
         return $this->customActions;
     }
 
-    public function getCustomButtons(): array
+    public function getCustomIconButtons(): array
     {
-        return $this->customButtons;
+        return $this->customIconButtons;
     }
 
-    public function getCustomDropdowns(): array
+    public function getCustomIconDropdowns(): array
     {
-        return $this->customDropdowns;
+        return $this->customIconDropdowns;
+    }
+
+    public function getCustomTextButtons(): array
+    {
+        return $this->customTextButtons;
+    }
+
+    public function getCustomTextDropdowns(): array
+    {
+        return $this->customTextDropdowns;
     }
 }
 
