@@ -51,6 +51,7 @@
         'align-lcrj' => ['align', 'options' => ['','center','right','justify']],
         'align-lcr' => ['align', 'options' => ['','center','right']],
         'align-lrj' => ['align', 'options' => ['','right','justify']],
+        'align-lr' => ['align', 'options' => ['','right']]
         'header-1-6' => ['header', 'options' => ['',1,2,3,4,5,6]],
         'header-2-6' => ['header', 'options' => ['',2,3,4,5,6]],
         'header-3-6' => ['header', 'options' => ['',3,4,5,6]],

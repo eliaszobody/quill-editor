@@ -5,27 +5,20 @@ namespace Eliaszobody\QuillEditor;
 use Closure;
 use Filament\Forms\Components\Field;
 use Illuminate\Contracts\Support\Htmlable;
-use Livewire\Attributes\Js;
 
 class QuillEditor extends Field
 {
     protected string $view = 'quill-editor::quill-editor';
 
-    protected $resizable = false;
+    protected bool $resizable = false;
 
-    protected $toolbarLeft = [];
-    protected $toolbarRight = [];
+    protected ?array $toolbarLeft = null;
+    protected ?array $toolbarRight = null;
 
-    protected $customActions = [];
-    protected $customIconButtons = [];
-    protected $customTextButtons = [];
-    protected $customIconDropdowns = [];
-    protected $customTextDropdowns = [];
-
-    public function toolbar(Closure | array $left = [], Closure | array $right = []): static
+    public function toolbar(Closure | array | null $left = [], Closure | array | null $right = []): static
     {
-        $this->toolbarLeft = $left;
-        $this->toolbarRight = $right;
+        $this->toolbarLeft = $this->evaluate($left);
+        $this->toolbarRight = $this->evaluate($right);
 
         return $this;
     }
@@ -42,69 +35,39 @@ class QuillEditor extends Field
         return $this->resizable;
     }
 
-    public function customButton(Closure | string $name, Closure | string | Htmlable $display, Closure | string $action, bool $icon = false): static
-    {
-        $this->customActions[$name] = $action;
-
-        if ($icon) {
-            $this->customIconButtons[$name] = $display;
-        } else {
-            $this->customTextButtons[$name] = $display;
-        }
-
-        return $this;
-    }
-
-    public function customDropdown(Closure | string $name, Closure | array $options, Closure | bool $icon = false, Closure | string | Htmlable | null $label = null): static
-    {
-        if ($icon) {
-            $this->customIconDropdowns[$name] = [
-                'label' => $label,
-                'options' => $options,
-            ];
-        } else {
-            $this->customTextDropdowns[$name] = [
-                'label' => $label,
-                'options' => $options,
-            ];
-        }
-
-        return $this;
-    }
-
     public function getToolbarLeft(): array
     {
-        return $this->toolbarLeft;
+        return $this->toolbarLeft ?? config('quill-editor.toolbars.defaultLeft');
     }
 
     public function getToolbarRight(): array
     {
-        return $this->toolbarRight;
+        return $this->toolbarRight ?? config('quill-editor.toolbars.defaultRight');
     }
 
     public function getCustomActions(): array
     {
-        return $this->customActions;
+        return config('quill-editor.customActions');
     }
 
     public function getCustomIconButtons(): array
     {
-        return $this->customIconButtons;
+        return config('quill-editor.customIconButtons');
     }
 
     public function getCustomIconDropdowns(): array
     {
-        return $this->customIconDropdowns;
+        return config('quill-editor.customIconDropdowns');
     }
 
     public function getCustomTextButtons(): array
     {
-        return $this->customTextButtons;
+        return config('quill-editor.customTextButtons');
     }
 
     public function getCustomTextDropdowns(): array
     {
-        return $this->customTextDropdowns;
+        return config('quill-editor.customTextDropdowns');
     }
 }
 
