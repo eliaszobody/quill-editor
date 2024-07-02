@@ -12,6 +12,22 @@
     width: 100% !important;
 }
 
+.ql-editor {
+    color: black;
+}
+
+html.dark .ql-editor {
+    color: white;
+}
+
+.fi-disabled .ql-editor {
+    color: rgba(var(--gray-500), var(--tw-text-opacity));
+}
+
+html.dark .fi-disabled .ql-editor {
+    color: rgba(var(--gray-400), var(--tw-text-opacity));
+}
+
 .ql-toolbar {
     border: none !important;
     padding: 0 !important;
