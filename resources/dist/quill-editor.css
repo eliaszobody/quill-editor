@@ -16,6 +16,11 @@
     color: black;
 }
 
+.ql-editor * {
+    margin: inherit !important;
+    padding: inherit !important;
+}
+
 html.dark .ql-editor {
     color: white;
 }
@@ -79,6 +84,8 @@ html.dark .ql-wrapper .ql-toolbar span, html.dark .ql-wrapper .ql-toolbar button
     flex-grow: 1 !important;
     padding: 8px !important;
     flex-wrap: nowrap !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
 }
 
 .ql-toolbar-right {

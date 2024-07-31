@@ -4,13 +4,13 @@ namespace Eliaszobody\QuillEditor;
 
 use Closure;
 use Filament\Forms\Components\Field;
-use Illuminate\Contracts\Support\Htmlable;
 
 class QuillEditor extends Field
 {
     protected string $view = 'quill-editor::quill-editor';
 
     protected bool $resizable = false;
+    protected bool $prose = false;
 
     protected ?array $toolbarLeft = null;
     protected ?array $toolbarRight = null;
@@ -21,6 +21,18 @@ class QuillEditor extends Field
         $this->toolbarRight = $this->evaluate($right);
 
         return $this;
+    }
+
+    public function prose(bool $prose = true): static
+    {
+        $this->prose = $prose;
+
+        return $this;
+    }
+
+    public function isProse(): bool
+    {
+        return $this->prose;
     }
 
     public function resizable(bool $resizable = true): static

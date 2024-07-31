@@ -1,5 +1,5 @@
 <?php
-    $quillId = Str::random(12);
+    $quillId = Str::uuid();
     $isDisabled = $isDisabled();
     $toolbarLeft = $getToolbarLeft();
     $toolbarRight = $getToolbarRight();
@@ -262,4 +262,10 @@
             </div>
         </x-filament::input.wrapper>
     </div>
+
+    @if ($prose)
+        <script>
+            document.getElementById('quill-editor-{{ $quillId }}').firstElementChild.classList.add('prose', 'dark:prose-invert', 'max-w-full');
+        </script>
+    @endif
 </x-dynamic-component>
