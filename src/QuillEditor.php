@@ -9,7 +9,6 @@ class QuillEditor extends Field
 {
     protected string $view = 'quill-editor::quill-editor';
 
-    protected bool $resizable = false;
     protected bool $prose = false;
 
     protected ?array $toolbarLeft = null;
@@ -33,18 +32,6 @@ class QuillEditor extends Field
     public function isProse(): bool
     {
         return $this->prose;
-    }
-
-    public function resizable(bool $resizable = true): static
-    {
-        $this->resizable = $resizable;
-
-        return $this;
-    }
-
-    public function isResizable(): bool
-    {
-        return $this->resizable;
     }
 
     public function getToolbarLeft(): array

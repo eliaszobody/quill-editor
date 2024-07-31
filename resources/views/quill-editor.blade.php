@@ -1,5 +1,6 @@
 <?php
     $quillId = Str::uuid();
+    $isProse = $isProse();
     $isDisabled = $isDisabled();
     $toolbarLeft = $getToolbarLeft();
     $toolbarRight = $getToolbarRight();
@@ -70,21 +71,6 @@
         'header-1-2' => ['header', 'options' => ['',1,2]],
     ];
 ?>
-
-@if ($isResizable() && !$isDisabled)
-    @push('styles')
-        <style>
-            #quill-editor-{{ $quillId }} .ql-editor {
-                max-width: 100%;
-                min-width: 320px;
-                resize: horizontal;
-                border-left: 1px solid rgba(128, 128, 128, 0.3);
-                border-right: 1px solid rgba(128, 128, 128, 0.3);
-                margin: 0 auto;
-            }
-        </style>
-    @endpush
-@endif
 
 <x-dynamic-component
     :component="$getFieldWrapperView()"
@@ -263,9 +249,17 @@
         </x-filament::input.wrapper>
     </div>
 
-    @if ($prose)
+    @if ($isProse)
         <script>
-            document.getElementById('quill-editor-{{ $quillId }}').firstElementChild.classList.add('prose', 'dark:prose-invert', 'max-w-full');
+            window.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('quill-editor-{{ $quillId }}').firstElementChild.classList.add('prose', 'dark:prose-invert', 'max-w-full');
+            });
         </script>
+    @else
+        <style>
+            #quill-editor-{{ $quillId }} .ql-editor * {
+                all: initial !important;
+            }
+        </style>
     @endif
 </x-dynamic-component>
