@@ -16,11 +16,6 @@
     color: black;
 }
 
-.ql-editor * {
-    margin: inherit !important;
-    padding: inherit !important;
-}
-
 html.dark .ql-editor {
     color: white;
 }

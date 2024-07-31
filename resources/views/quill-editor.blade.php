@@ -252,7 +252,7 @@
     @if ($isProse)
         <script>
             window.addEventListener('DOMContentLoaded', () => {
-                document.getElementById('quill-editor-{{ $quillId }}').firstElementChild.classList.add('prose', 'dark:prose-invert', 'max-w-full');
+                document.getElementById('quill-editor-{{ $quillId }}').firstElementChild.classList.add('!prose', 'dark:!prose-invert', '!max-w-full');
             });
         </script>
     @else
