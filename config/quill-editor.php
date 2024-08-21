@@ -33,6 +33,39 @@ return [
         ],
     ],
 
+    // here's where you register any additional assets to be registered in the quill service provider
+    // such as script and style tags for additional modules
+
+    // examples:
+    // \Filament\Support\Assets\Js::make('scripts', 'https://cdn.jsdelivr.net/npm/quill-image-uploader@1.3.0/dist/quill.imageUploader.min.js'),
+    // \Filament\Support\Assets\Css::make('styles', 'https://cdn.jsdelivr.net/npm/quill-image-uploader@1.3.0/dist/quill.imageUploader.min.css'),
+
+    'extraAssets' => [
+
+    ],
+
+    // here's where you define any additional modules to be used
+
+    // follow this structure for custom modules
+    // '<unique identifier>' => '<javascipt function>',
+
+    // be careful not to use a <unique identifier> that already exists as a module unless you wish to overwrite the module
+
+    'otherModules' => [
+
+    ],
+
+    // all extra modules must also be registered. Here is where you register them
+
+    // each array entry must be the input for the method Quill.register(<input>)
+
+    // example:
+    // '"modules/imageUploader", ImageUploader',
+
+    'registerModules' => [
+
+    ],
+
     // here's where you register any custom actions to be used by your custom buttons
 
     // follow this structure for custom actions:

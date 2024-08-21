@@ -5,6 +5,8 @@
     $toolbarLeft = $getToolbarLeft();
     $toolbarRight = $getToolbarRight();
     $customActions = $getCustomActions();
+    $otherModules = $getOtherModules();
+    $registerModules = $getRegisterModules();
     $customIconButtons = $getCustomIconButtons();
     $customIconDropdowns = $getCustomIconDropdowns();
     $customTextButtons = $getCustomTextButtons();
@@ -210,6 +212,10 @@
                 <div class="min-h-[240px] max-h-[440px]" id="quill-editor-{{ $quillId }}"
                     x-data="{ quill: null }"
                     x-init="
+                        @foreach ($registerModules as $register)
+                            Quill.register({{ $register }});
+                        @endforeach
+
                         quill = new Quill('#quill-editor-{{ $quillId }}', {
                             theme: 'snow',
                             modules: {
@@ -232,6 +238,9 @@
                                     maxStack: 100,
                                     userOnly: true
                                 },
+                                @foreach ($otherModules as $name => $module)
+                                    '{{ $name }}': {{ $module }},
+                                @endforeach
                             }
                         });
                         quill.root.innerHTML = state;

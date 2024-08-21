@@ -36,37 +36,47 @@ class QuillEditor extends Field
 
     public function getToolbarLeft(): array
     {
-        return $this->toolbarLeft ?? config('quill-editor.toolbars.defaultLeft');
+        return $this->toolbarLeft ?? config('quill-editor.toolbars.defaultLeft', []);
     }
 
     public function getToolbarRight(): array
     {
-        return $this->toolbarRight ?? config('quill-editor.toolbars.defaultRight');
+        return $this->toolbarRight ?? config('quill-editor.toolbars.defaultRight', []);
+    }
+
+    public function getOtherModules(): array
+    {
+        return config('quill-editor.otherModules', []);
+    }
+
+    public function getRegisterModules(): array
+    {
+        return config('quill-editor.registerModules', []);
     }
 
     public function getCustomActions(): array
     {
-        return config('quill-editor.customActions');
+        return config('quill-editor.customActions', []);
     }
 
     public function getCustomIconButtons(): array
     {
-        return config('quill-editor.customIconButtons');
+        return config('quill-editor.customIconButtons', []);
     }
 
     public function getCustomIconDropdowns(): array
     {
-        return config('quill-editor.customIconDropdowns');
+        return config('quill-editor.customIconDropdowns', []);
     }
 
     public function getCustomTextButtons(): array
     {
-        return config('quill-editor.customTextButtons');
+        return config('quill-editor.customTextButtons', []);
     }
 
     public function getCustomTextDropdowns(): array
     {
-        return config('quill-editor.customTextDropdowns');
+        return config('quill-editor.customTextDropdowns', []);
     }
 }
 
